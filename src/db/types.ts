@@ -17,3 +17,10 @@ export type RecordType = {
     recordId: number
     running: RunningDataType
 }
+
+export type ReportType = {
+    week: string
+    averageSpeed: number
+    averageTime: number
+    totalDistance: number
+}

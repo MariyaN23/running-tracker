@@ -42,3 +42,13 @@ runningRouter.delete('/:recordId',
             res.status(400).send(`Error while deleting record: ${error}`)
         }
     })
+
+runningRouter.get('/report/:userId',
+    async (req: Request, res: Response) => {
+        try {
+            const report = await runningService.getReport(+req.params.userId)
+            res.status(200).send(report)
+        } catch (error) {
+            res.status(400).send(`Error while creating report: ${error}`)
+        }
+    })

@@ -1,5 +1,5 @@
 import {runningRepository} from "../repositories/running-repository";
-import {RecordType, RunningDataType} from "../db/types";
+import {RecordType, ReportType, RunningDataType} from "../db/types";
 
 export const runningService = {
     async addRecord(userId: number, distance: number, runningTime: number, date: string): Promise<RecordType> {
@@ -23,5 +23,8 @@ export const runningService = {
     },
     async deleteRecord(recordId: number): Promise<boolean> {
         return await runningRepository.deleteRecord(recordId)
+    },
+    async getReport(userId: number): Promise<ReportType[]> {
+        return await runningRepository.getReport(userId)
     }
 }

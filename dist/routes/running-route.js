@@ -49,3 +49,12 @@ exports.runningRouter.delete('/:recordId', (req, res) => __awaiter(void 0, void 
         res.status(400).send(`Error while deleting record: ${error}`);
     }
 }));
+exports.runningRouter.get('/report/:userId', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const report = yield running_service_1.runningService.getReport(+req.params.userId);
+        res.status(200).send(report);
+    }
+    catch (error) {
+        res.status(400).send(`Error while creating report: ${error}`);
+    }
+}));

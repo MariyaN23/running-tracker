@@ -41,5 +41,10 @@ exports.runningService = {
         return __awaiter(this, void 0, void 0, function* () {
             return yield running_repository_1.runningRepository.deleteRecord(recordId);
         });
+    },
+    getReport(userId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield running_repository_1.runningRepository.getReport(userId);
+        });
     }
 };
