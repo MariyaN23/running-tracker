@@ -1,6 +1,6 @@
 import {authRepository} from "../repositories/auth-repository";
-import {UserType} from "../db/db";
 import bcrypt from "bcrypt";
+import {UserType} from "../db/types";
 
 export const authService = {
     async register(username: string, password: string): Promise<UserType> {

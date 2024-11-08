@@ -24,3 +24,9 @@ export type ReportType = {
     averageTime: number
     totalDistance: number
 }
+
+export type ImageType = {
+    imageId: number
+    name: string
+    url: string
+}

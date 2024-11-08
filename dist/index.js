@@ -16,11 +16,13 @@ const express_1 = __importDefault(require("express"));
 const db_1 = require("./db/db");
 const auth_route_1 = require("./routes/auth-route");
 const running_route_1 = require("./routes/running-route");
+const images_route_1 = require("./routes/images-route");
 const app = (0, express_1.default)();
 const port = process.env.PORT || 5000;
 app.use(express_1.default.json());
 app.use('/auth', auth_route_1.authRouter);
 app.use('/running', running_route_1.runningRouter);
+app.use('/images', images_route_1.imagesRouter);
 const startApp = () => __awaiter(void 0, void 0, void 0, function* () {
     yield (0, db_1.runDb)();
     app.listen(port, () => {

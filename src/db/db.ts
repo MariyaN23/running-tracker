@@ -1,6 +1,6 @@
 import {Collection, MongoClient} from "mongodb";
 import dotenv from "dotenv";
-import {RecordType, UserType} from "./types";
+import {ImageType, RecordType, UserType} from "./types";
 
 dotenv.config()
 
@@ -11,6 +11,7 @@ const db = client.db("yellow")
 
 export const usersCollection: Collection<UserType> = db.collection<UserType>("users")
 export const runningCollection: Collection<RecordType> = db.collection<RecordType>("running")
+export const imagesCollection: Collection<ImageType> = db.collection<ImageType>("images")
 
 export const runDb = async () => {
     try {
