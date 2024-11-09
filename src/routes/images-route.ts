@@ -3,14 +3,49 @@ import multer from 'multer';
 import {getDownloadURL, getStorage, ref, uploadBytes} from "firebase/storage";
 import {app} from "../db/firebase";
 import {imagesService} from "../services/images-service";
-import {runningService} from "../services/running-service";
-import {runningRouter} from "./running-route";
-import {ImageType} from "../db/types";
 
 export const imagesRouter = Router({})
 
 const upload = multer()
 
+/**
+ * @swagger
+ * /images:
+ *   post:
+ *     summary: Upload an image
+ *     tags: [📷 Images]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         multipart/form-data:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               file:
+ *                 name: file
+ *                 in: formData
+ *                 description: The uploaded file data
+ *                 required: true
+ *                 type: file
+ *     responses:
+ *       200:
+ *         description: Image uploaded successfully
+ *         content:
+ *           text/plain:
+ *             schema:
+ *               type: string
+ *               example: "Image uploaded, url: [image url]"
+ *       400:
+ *         description: Error while uploading image
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "No file uploaded"
+ */
 imagesRouter.post('/',
     upload.single('file'),
     async (req: Request, res: Response) => {
@@ -31,6 +66,34 @@ imagesRouter.post('/',
         }
     })
 
+/**
+ * @swagger
+ * /images:
+ *   get:
+ *     summary: Return all images
+ *     tags: [📷 Images]
+ *     responses:
+ *       200:
+ *         description: A list of images
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   name:
+ *                     type: string
+ *                   url:
+ *                     type: string
+ *       400:
+ *         description: Error while fetching images
+ *         content:
+ *           text/plain:
+ *             schema:
+ *               type: string
+ *               example: "Error while fetching images: [error details]"
+ */
 imagesRouter.get('/',
     async (req: Request, res: Response) => {
         try {

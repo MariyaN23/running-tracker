@@ -1,5 +1,3 @@
-import exp from "node:constants";
-
 export type UserType = {
     id: number
     username: string

@@ -10,14 +10,18 @@ export const runningRepository = {
     async getRecordsByUserId(userId: number): Promise<RecordType[]> {
         return await runningCollection.find({userId}).toArray()
     },
-    async updateRecord(recordId: number, running: RunningDataType): Promise<RecordType> {
+    async updateRecord(recordId: number, running: Partial<RunningDataType>): Promise<RecordType> {
         const updateFields: Partial<RunningDataType> = {}
         if (running.distance !== undefined) updateFields.distance = running.distance
         if (running.runningTime !== undefined) updateFields.runningTime = running.runningTime
         if (running.date !== undefined) updateFields.date = running.date
-        const result = await runningCollection.findOneAndUpdate({recordId}, {$set: updateFields}, {returnDocument: 'after'})
+
+        const oldRunning =  await runningCollection.findOne({recordId})
+        const newRunning = {...oldRunning, running: {...oldRunning?.running, ...updateFields}} as Partial<RunningDataType>
+
+        const result = await runningCollection.findOneAndUpdate({recordId}, { $set: newRunning }, {returnDocument: 'after'})
         if (result) {
-            return result;
+            return result
         } else {
             throw new Error(`Record with id ${recordId} not found`)
         }
