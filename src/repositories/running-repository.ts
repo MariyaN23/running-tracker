@@ -7,8 +7,12 @@ export const runningRepository = {
         await runningCollection.insertOne(newRecord)
         return newRecord
     },
-    async getRecordsByUserId(userId: number): Promise<RecordType[]> {
-        return await runningCollection.find({userId}).toArray()
+    async getRecordsByUserId(userId: number): Promise<RecordType[] | string> {
+        const records = await runningCollection.find({userId}).toArray()
+        if (records.length === 0) {
+            return `User with ID ${userId} not found`
+        }
+        return records
     },
     async updateRecord(recordId: number, running: Partial<RunningDataType>): Promise<RecordType> {
         const updateFields: Partial<RunningDataType> = {}
@@ -30,8 +34,11 @@ export const runningRepository = {
         const result = await runningCollection.deleteOne({recordId})
         return result.deletedCount === 1
     },
-    async getReport(userId: number): Promise<ReportType[]> {
+    async getReport(userId: number): Promise<ReportType[] | string> {
         const runs = await runningCollection.find({userId}).toArray()
+        if (runs.length === 0) {
+            return `Records for user with ID ${userId} not found`
+        }
         const report = runs.reduce((acc, run) => {
             const week = moment(run.running.date).startOf('isoWeek').format('YYYY-MM-DD') + ' / ' + moment(run.running.date).endOf('isoWeek').format('YYYY-MM-DD')
             if (!acc[week]) {

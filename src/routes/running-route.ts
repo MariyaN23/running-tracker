@@ -102,8 +102,8 @@ runningRouter.post('/',
 runningRouter.get('/:userId',
     async (req: Request, res: Response) => {
         try {
-            const usersRecords = await runningService.getRecordsByUserId(+req.params.userId)
-            res.status(200).send(usersRecords)
+            const response = await runningService.getRecordsByUserId(+req.params.userId)
+            res.status(200).send(response)
         } catch (error) {
             res.status(400).send(`Error while fetching users records: ${error}`)
         }
@@ -172,9 +172,10 @@ runningRouter.get('/:userId',
  */
 runningRouter.put('/:recordId',
     async (req: Request, res: Response) => {
+    const recordId = +req.params.recordId
         try {
-            const updatedRecord = await runningService.updateRecord(+req.params.recordId, req.body)
-            updatedRecord ? res.send(updatedRecord) : res.send(404)
+            const updatedRecord = await runningService.updateRecord(recordId, req.body)
+            updatedRecord ? res.send(updatedRecord) : res.send(`Record with ID ${recordId} not found`)
         } catch (error) {
             res.status(400).send(`Error while updating record: ${error}`)
         }
@@ -209,8 +210,9 @@ runningRouter.put('/:recordId',
 runningRouter.delete('/:recordId',
     async (req: Request, res: Response) => {
         try {
-            const isDeleted = await runningService.deleteRecord(+req.params.recordId)
-            isDeleted ? res.send(204) : res.send(404)
+            const recordId = +req.params.recordId
+            const isDeleted = await runningService.deleteRecord(recordId)
+            isDeleted ? res.send(`Record with ID ${recordId} is deleted`) : res.send(`Record with ID ${recordId} not found`)
         } catch (error) {
             res.status(400).send(`Error while deleting record: ${error}`)
         }
@@ -260,8 +262,8 @@ runningRouter.delete('/:recordId',
 runningRouter.get('/report/:userId',
     async (req: Request, res: Response) => {
         try {
-            const report = await runningService.getReport(+req.params.userId)
-            res.status(200).send(report)
+            const response = await runningService.getReport(+req.params.userId)
+            res.status(200).send(response)
         } catch (error) {
             res.status(400).send(`Error while creating report: ${error}`)
         }

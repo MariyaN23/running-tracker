@@ -15,7 +15,7 @@ export const runningService = {
         }
         return await runningRepository.addRecord(newRecord)
     },
-    async getRecordsByUserId(userId: number): Promise<RecordType[]> {
+    async getRecordsByUserId(userId: number): Promise<RecordType[] | string> {
         return await runningRepository.getRecordsByUserId(userId)
     },
     async updateRecord(recordId: number, running: RunningDataType): Promise<RecordType> {
@@ -24,7 +24,7 @@ export const runningService = {
     async deleteRecord(recordId: number): Promise<boolean> {
         return await runningRepository.deleteRecord(recordId)
     },
-    async getReport(userId: number): Promise<ReportType[]> {
+    async getReport(userId: number): Promise<ReportType[] | string> {
         return await runningRepository.getReport(userId)
     }
 }

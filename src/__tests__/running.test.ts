@@ -81,7 +81,7 @@ describe('DELETE /running/:recordId', () => {
 
         const response = await request(app).delete('/running/2')
 
-        expect(response.status).toBe(204)
+        expect(response.text).toBe(`Record with ID 2 is deleted`)
         expect(mockDeleteRecord).toHaveBeenCalledWith(2)
     })
 
@@ -91,7 +91,7 @@ describe('DELETE /running/:recordId', () => {
 
         const response = await request(app).delete('/running/2')
 
-        expect(response.status).toBe(404)
+        expect(response.text).toBe(`Record with ID 2 not found`)
     })
 
     it('should return an error if error while deleting record', async () => {
@@ -138,7 +138,7 @@ describe('PUT /running/:recordId', () => {
         })
     })
 
-    it('should return 404 if record is not found', async () => {
+    it('should return text if record is not found', async () => {
         const mockUpdateRecord = runningService.updateRecord as jest.Mock
         mockUpdateRecord.mockResolvedValueOnce(null)
 
@@ -150,7 +150,7 @@ describe('PUT /running/:recordId', () => {
                 date: '2024-11-01'
             })
 
-        expect(response.status).toBe(404)
+        expect(response.text).toContain(`Record with ID 123 not found`)
     })
 
     it('should return an error if updating a record fails', async () => {
