@@ -1,4 +1,4 @@
-import express from 'express';
+import express, {Express} from 'express';
 import {runDb} from "./db/db";
 import {authRouter} from "./routes/auth-route";
 import {runningRouter} from "./routes/running-route";
@@ -6,7 +6,7 @@ import {imagesRouter} from "./routes/images-route";
 import swaggerUi from "swagger-ui-express"
 import {swaggerSpec} from "./swagger";
 
-const app = express()
+const app: Express = express()
 const port = process.env.PORT || 5000
 
 app.use(express.json())
