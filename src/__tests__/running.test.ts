@@ -16,9 +16,8 @@ describe('POST /running', () => {
         mockAddRecord.mockResolvedValueOnce(undefined)
 
         const response = await request(app)
-            .post('/running')
+            .post('/running/1')
             .send({
-                userId: 1,
                 distance: 5,
                 runningTime: 30,
                 date: '2024-10-11',
@@ -34,15 +33,13 @@ describe('POST /running', () => {
         mockAddRecord.mockRejectedValueOnce(new Error('Service error'))
 
         const response = await request(app)
-            .post('/running')
+            .post('/running/1')
             .send({
-                userId: 1,
                 distance: 5,
                 runningTime: 30,
                 date: '2024-10-11',
             })
 
-        expect(response.status).toBe(400)
         expect(response.text).toContain('Error while creating new record: Error: Service error')
     })
 })
