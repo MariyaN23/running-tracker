@@ -10,6 +10,7 @@ const app: Express = express()
 const port = process.env.PORT || 5000
 
 app.use(express.json())
+
 app.use('/auth', authRouter)
 app.use('/running', runningRouter)
 app.use('/images', imagesRouter)

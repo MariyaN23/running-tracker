@@ -1,11 +1,15 @@
 import {Request, Response, Router} from "express";
 import {runningService} from "../services/running-service";
+import {
+    addRunningValidation, updateRunningValidation
+} from "../middleware/running-validation";
+import {validationMiddleware} from "../middleware/validation-middleware";
 
 export const runningRouter = Router({})
 
 /**
  * @swagger
- * /running:
+ * /running/{userId}:
  *   post:
  *     summary: Add new running record
  *     tags: [🏃‍♀️ Running]
@@ -16,8 +20,6 @@ export const runningRouter = Router({})
  *           schema:
  *             type: object
  *             properties:
- *               userId:
- *                 type: number
  *               distance:
  *                 type: number
  *               runningTime:
@@ -42,10 +44,12 @@ export const runningRouter = Router({})
  *               type: string
  *               example: "Error while creating new record: [error details]"
  */
-runningRouter.post('/',
+runningRouter.post('/:userId',
+    addRunningValidation,
+    validationMiddleware,
     async (req: Request, res: Response) => {
         try {
-            await runningService.addRecord(req.body.userId, req.body.distance, req.body.runningTime, req.body.date)
+            await runningService.addRecord(+req.params.userId, req.body.distance, req.body.runningTime, req.body.date)
             res.status(200).send(`New running record created`)
         } catch (error) {
             res.status(400).send(`Error while creating new record: ${error}`)
@@ -171,6 +175,8 @@ runningRouter.get('/:userId',
  *               example: "Error while updating record: [error details]"
  */
 runningRouter.put('/:recordId',
+    updateRunningValidation,
+    validationMiddleware,
     async (req: Request, res: Response) => {
     const recordId = +req.params.recordId
         try {
